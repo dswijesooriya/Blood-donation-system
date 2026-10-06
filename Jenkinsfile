@@ -56,22 +56,23 @@ pipeline {
         // This file is NOT committed to Git — it's created
         // fresh on each build from Jenkins credentials.
         // ----------------------------------------------------
-        stage('Prepare Environment') {
-            steps {
-                echo '🔐 Writing .env file from credentials'
-                sh '''
-                    cat > .env <<EOF
+       stage('Prepare Environment') {
+    steps {
+        echo '🔐 Writing .env file from credentials'
+        sh '''
+            cat > .env <<EOF
 MONGO_URI=${MONGO_URI}
 JWT_SECRET=${JWT_SECRET}
 JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
 NODE_ENV=${NODE_ENV}
 VITE_API_URL=${VITE_API_URL}
 EOF
-                    echo '✅ .env created'
-                    ls -la .env
-                '''
-            }
-        }
+            echo '✅ .env created'
+            echo "VITE_API_URL in .env: $(grep VITE_API_URL .env)"
+            ls -la .env
+        '''
+    }
+}
 
         // ----------------------------------------------------
         // STAGE 3: BUILD BACKEND
@@ -102,14 +103,14 @@ EOF
         // --remove-orphans cleans up any leftover containers.
         // ----------------------------------------------------
         stage('Deploy') {
-            steps {
-                echo '🚀 Deploying new containers...'
-                sh 'docker compose down --remove-orphans || true'
-                sh 'docker compose up -d'
-                echo '✅ Containers started'
-                sh 'docker compose ps'
-            }
-        }
+    steps {
+        echo '🚀 Deploying new containers...'
+        sh 'docker compose down --remove-orphans || true'
+        sh 'docker compose up -d --build'
+        echo '✅ Containers started'
+        sh 'docker compose ps'
+    }
+}
 
         // ----------------------------------------------------
         // STAGE 6: HEALTH CHECK
