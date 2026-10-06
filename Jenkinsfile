@@ -89,12 +89,12 @@ EOF
         // STAGE 4: BUILD FRONTEND
         // ----------------------------------------------------
         stage('Build Frontend') {
-            steps {
-                echo '🔨 Building frontend Docker image...'
-                sh 'docker compose build frontend'
-                echo '✅ Frontend image built'
-            }
-        }
+    steps {
+        echo '🔨 Building frontend Docker image (no cache)...'
+        sh 'docker compose build --no-cache frontend'
+        echo '✅ Frontend image built'
+    }
+}
 
         // ----------------------------------------------------
         // STAGE 5: DEPLOY
@@ -106,7 +106,7 @@ EOF
     steps {
         echo '🚀 Deploying new containers...'
         sh 'docker compose down --remove-orphans || true'
-        sh 'docker compose up -d --build'
+        sh 'docker compose up -d --build --force-recreate'
         echo '✅ Containers started'
         sh 'docker compose ps'
     }
