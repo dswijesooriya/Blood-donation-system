@@ -10,6 +10,7 @@
 // ============================================================
 
 // React hooks: useEffect for side effects, useState for local state
+
 import { useEffect, useState } from 'react';
 // Link provides client-side navigation without page reloads
 import { Link } from 'react-router-dom';

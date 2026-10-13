@@ -1,0 +1,14 @@
+# ============================================================
+# robots.txt for BloodLinker
+# ============================================================
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Block specific paths if needed (none for now)
+# Disallow: /admin/
+# Disallow: /hospital/
+
+# Sitemap location
+Sitemap: https://bloodlinker.is-a.dev/sitemap.xml
