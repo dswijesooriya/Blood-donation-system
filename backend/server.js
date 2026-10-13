@@ -19,20 +19,31 @@ const app = express();
 // ============================================================
 
 // CORS — allow localhost + all *.vercel.app deployments
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://bloodlinker.is-a.dev',
+  'https://www.bloodlinker.is-a.dev',
+  'http://13.54.125.121',
+];
+
 app.use(
   cors({
     origin: (origin, callback) => {
       // No origin (Postman, mobile apps)
       if (!origin) return callback(null, true);
-
-      // Localhost (dev)
+      
+      // Localhost for development
       if (origin.startsWith('http://localhost')) return callback(null, true);
-
-      // Any Vercel deployment (preview + production)
+      
+      // Explicit allowed origins
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      
+      // Vercel deployments (if any)
       if (origin.endsWith('.vercel.app')) return callback(null, true);
-
-      // Allow all for now — tighten in production
-      return callback(null, true);
+      
+      console.log('❌ CORS blocked:', origin);
+      return callback(new Error('CORS not allowed'), false);
     },
     credentials: true,
   })

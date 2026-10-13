@@ -28,7 +28,7 @@ pipeline {
         JWT_SECRET      = credentials('bloodlife-jwt-secret')
         JWT_EXPIRES_IN  = '7d'
         NODE_ENV        = 'production'
-        VITE_API_URL    = 'http://13.54.125.121/api'
+        VITE_API_URL    = 'https://bloodlinker.is-a.dev/api'
     }
 
     // --------------------------------------------------------
@@ -137,7 +137,7 @@ EOF
     post {
         success {
             echo '🎉 Deployment successful!'
-            echo '🌐 App is live at http://13.54.125.121'
+            echo '🌐 App is live at https://bloodlinker.is-a.dev'
         }
         failure {
             echo '❌ Deployment failed. Check logs above.'
